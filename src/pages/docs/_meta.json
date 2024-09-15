@@ -1,0 +1,14 @@
+{
+    "index": "HomePage",
+    "installation": "Installation",
+    "database": "Database Support",
+    "storage": "Storage Support",
+    "contact": "Contact Us",
+
+    "github_link": {
+      "title": "GitHub",
+      "href": "https://github.com/cjamcu/bakdb",
+      "newWindow": true
+    }
+
+  }
