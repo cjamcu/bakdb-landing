@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Database, HardDrive, Clock, Shield, Github, FileText, Menu, X } from 'lucide-react';
+import { buttonVariants } from "@/components/ui/button"
+import Link from 'next/link';
 
 type FeatureProps = {
   icon: React.ReactNode;
@@ -62,7 +64,7 @@ const LandingPage: React.FC = () => {
             Simplify Your Database Backups
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Bakdb is a self-hosted, single-file solution that streamlines your database backup process across multiple database types. 
+            Bakdb is a self-hosted, single-file solution that streamlines your database backup process across multiple database types.
           </p>
           <div className="bg-blue-100 text-blue-800 p-4 rounded-lg inline-block mb-8 animate-pulse">
             <code className="text-lg font-semibold">./bakdb serve domain.com</code>
@@ -71,10 +73,8 @@ const LandingPage: React.FC = () => {
             Deploy Bakdb instantly with this single command
           </p>
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 transition-colors">Live Demo</Button>
-            <Button size="lg" className="bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors flex items-center justify-center">
-              <FileText className="w-4 h-4 mr-2" /> Read Documentation
-            </Button>
+            {/* <Link href="https://demo.bakdb.com" className={buttonVariants({ variant: "default" })} target="_blank"> Live Demo</Link> */}
+            <Link href="/docs" className={buttonVariants({ variant: "default" })}>    <FileText className="w-4 h-4 mr-2" /> Read Documentation</Link>
           </div>
         </div>
 
@@ -83,24 +83,24 @@ const LandingPage: React.FC = () => {
             Key Features
           </h3>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            <Feature 
+            <Feature
               icon={<Database className="w-12 h-12 text-blue-600" />}
-              title="Multi-Database Support" 
+              title="Multi-Database Support"
               description="Backup various database types from a single interface."
             />
-            <Feature 
+            <Feature
               icon={<HardDrive className="w-12 h-12 text-blue-600" />}
-              title="Flexible Storage" 
+              title="Flexible Storage"
               description="Store backups locally or on major cloud platforms."
             />
-            <Feature 
+            <Feature
               icon={<Clock className="w-12 h-12 text-blue-600" />}
-              title="Automated Scheduling" 
+              title="Automated Scheduling"
               description="Set up flexible backup schedules to keep your data protected."
             />
-            <Feature 
+            <Feature
               icon={<Shield className="w-12 h-12 text-blue-600" />}
-              title="Secure & Self-Hosted" 
+              title="Secure & Self-Hosted"
               description="Keep full control of your data with on-premise deployment."
             />
           </div>
@@ -140,7 +140,9 @@ const LandingPage: React.FC = () => {
           <h3 className="text-3xl font-extrabold mb-8">
             Ready to Secure Your Data?
           </h3>
-          <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 transition-colors">Download Bakdb</Button>
+
+          <Link href="/docs" className={buttonVariants({ variant: "default" })}>Read Documentation</Link>
+
         </div>
       </main>
 
