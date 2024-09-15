@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Database, HardDrive, Clock, Shield, Github, FileText, Menu, X } from 'lucide-react';
 import { buttonVariants } from "@/components/ui/button"
@@ -74,7 +73,7 @@ const LandingPage: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
             {/* <Link href="https://demo.bakdb.com" className={buttonVariants({ variant: "default" })} target="_blank"> Live Demo</Link> */}
-            <Link href="/docs" className={buttonVariants({ variant: "default" })}>    <FileText className="w-4 h-4 mr-2" /> Read Documentation</Link>
+            <Link href="/docs" className={buttonVariants({ variant: "default", size: "lg" })}>    <FileText className="w-4 h-4 mr-2" /> Read Documentation</Link>
           </div>
         </div>
 
@@ -141,7 +140,7 @@ const LandingPage: React.FC = () => {
             Ready to Secure Your Data?
           </h3>
 
-          <Link href="/docs" className={buttonVariants({ variant: "default" })}>Read Documentation</Link>
+          <Link href="/docs" className={buttonVariants({ variant: "default", size: "lg" })}>Read Documentation</Link>
 
         </div>
       </main>
