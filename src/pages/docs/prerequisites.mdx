@@ -1,0 +1,50 @@
+import { Tab, Tabs } from 'nextra-theme-docs';
+
+# Prerequisites
+
+Before installing Bakdb, ensure you have the necessary database clients installed for the databases you plan to back up.
+
+## MySQL Client
+
+<Tabs items={['Ubuntu Server', 'Alpine Linux', 'macOS']}>
+  <Tab>
+    ```bash 
+    sudo apt install mysql-client 
+    ```
+  </Tab>
+  <Tab>
+    ```bash 
+    sudo apk add mysql-client 
+    ```
+  </Tab>
+  <Tab>
+    Install via Homebrew:
+    ```bash
+    brew install mysql-client
+    ```
+    For more information, visit [Homebrew MySQL Client](https://formulae.brew.sh/formula/mysql-client)
+  </Tab>
+</Tabs>
+
+## PostgreSQL Client
+
+Bakdb uses the `pg_dump` utility to backup PostgreSQL databases.
+
+<Tabs items={['Ubuntu Server', 'Alpine Linux', 'macOS']}>
+  <Tab>
+    ```bash 
+    sudo apt install postgresql-client
+    ```
+  </Tab>
+  <Tab>
+    ```bash 
+    sudo apk add postgresql-client
+    ```
+  </Tab>
+  <Tab>
+    Install via Homebrew:
+    ```bash
+    brew install postgresql
+    ```
+  </Tab>
+</Tabs>

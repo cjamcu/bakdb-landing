@@ -1,14 +1,22 @@
 {
-    "index": "HomePage",
-    "installation": "Installation",
+    "index": "Home",
+    "prerequisites": "Prerequisites",
+    "download": "Download",
+    "quick-start": "Quick Start",
+    "production-deployment": "Production Deployment",
     "database": "Database Support",
     "storage": "Storage Support",
-    "contact": "Contact Us",
-
+    "contact": "Contact",
     "github_link": {
       "title": "GitHub",
       "href": "https://github.com/cjamcu/bakdb",
       "newWindow": true
+    },
+
+    "twitter_link": {
+      "title": "Twitter",
+      "href": "https://twitter.com/cjamcu",
+      "newWindow": true
     }
 
-  }
+}

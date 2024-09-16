@@ -1,0 +1,141 @@
+# Production Deployment
+
+This guide will walk you through deploying Bakdb in a production environment.
+
+## Prerequisites
+
+Before you begin, ensure you have:
+- A server with a public IP address
+- A domain name pointing to your server
+- Bakdb binary downloaded (see our [Download Guide](./download))
+
+## Basic Deployment
+
+1. Connect to your server via SSH.
+2. Create a directory for Bakdb:
+   ```bash
+   mkdir -p /root/bakdb
+   ```
+3. Download the Bakdb binary to your server:
+   ```bash
+   wget -O /root/bakdb/bakdb https://github.com/cjamcu/bakdb/releases/download/v0.0.1/bakdb_0.0.1_linux_amd64.tar.gz
+   tar -xzvf /root/bakdb/bakdb.tar.gz -C /root/bakdb
+   chmod +x /root/bakdb/bakdb
+   ```
+4. Run Bakdb with your domain name:
+   ```bash
+   /root/bakdb/bakdb serve yourdomain.com
+   ```
+
+This command will:
+- Start Bakdb
+- Automatically obtain a Let's Encrypt SSL certificate for your domain
+- Configure HTTPS
+
+## Setting Up a Systemd Service (Recommended)
+
+For improved reliability, set up Bakdb as a systemd service:
+
+1. Create a service file:
+   ```bash
+   nano /etc/systemd/system/bakdb.service
+   ```
+
+2. Add the following content:
+   ```ini
+   [Unit]
+   Description=Bakdb Service
+   After=network.target
+
+   [Service]
+   Type=simple
+   User=root
+   WorkingDirectory=/root/bakdb
+   ExecStart=/root/bakdb/bakdb serve yourdomain.com
+   Restart=on-failure
+   RestartSec=5s
+   StandardOutput=append:/root/bakdb/bakdb.log
+   StandardError=append:/root/bakdb/bakdb.log
+
+   [Install]
+   WantedBy=multi-user.target
+   ```
+
+3. Enable and start the service:
+   ```bash
+   systemctl enable bakdb.service
+   systemctl start bakdb
+   ```
+
+## Docker Deployment
+
+For Docker-based deployments (e.g., on platforms like fly.io), use this Dockerfile:
+
+```bash
+FROM alpine:latest
+
+ARG BD_VERSION=0.0.1
+
+RUN apk add --no-cache \
+    unzip \
+    ca-certificates
+
+# download and unzip Bakdb
+ADD https://github.com/cjamcu/bakdb/releases/download/v${PB_VERSION}/bakdb_${PB_VERSION}_linux_amd64.zip /tmp/bakdb.zip
+RUN unzip /tmp/bakdb.zip -d /bakdb/
+
+EXPOSE 8080
+
+# start bakdb
+CMD ["/bakdb/bakdb", "serve", "--http=0.0.0.0:8080"]
+```
+
+To persist your data you need to mount a volume at /bakdb/pb_data.
+
+## Using Reverse Proxy
+
+If you plan hosting multiple applications on a single server or need finer network controls (rate limiter, IPs whitelisting, etc.), you could always put PocketBase behind a reverse proxy such as NGINX, Apache, Caddy, etc.
+
+Here is a minimal NGINX example configuration:
+
+```
+server {
+    listen 80;
+    server_name example.com;
+    client_max_body_size 10M;
+
+    location / {
+        # check http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive
+        proxy_set_header Connection '';
+        proxy_http_version 1.1;
+        proxy_read_timeout 360s;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # enable if you are serving under a subpath location
+        # rewrite /yourSubpath/(.*) /$1  break;
+
+        proxy_pass http://127.0.0.1:8090;
+    }
+}
+```
+Corresponding Caddy configuration is:
+
+```
+example.com {
+    request_body {
+        max_size 10MB
+    }
+    reverse_proxy 127.0.0.1:8090 {
+        transport http {
+            read_timeout 360s
+        }
+    }
+}
+```
+## Need Help?
+
+If you encounter any issues during deployment, please check our [Contact](./contact) page for support options.
